@@ -41,7 +41,7 @@ class _LoginViewState extends State<LoginView> {
                   height: 50,
                 ),
                 Image.asset(
-                  "assets/images/cahtAppIcon.png",
+                  KImageAnssets,
                   fit: BoxFit.fill,
                   height: 130,
                 ),

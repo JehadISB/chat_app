@@ -14,10 +14,15 @@ class chatView extends StatelessWidget {
     CollectionReference messagesCollection =
         FirebaseFirestore.instance.collection(kCollectionName);
     TextEditingController textEditingController = TextEditingController();
+    final _scrollController = ScrollController();
+    var email = ModalRoute.of(context)!.settings.arguments;
+    log("Email@@=>$email");
     // return FutureBuilder<QuerySnapshot>(
     return StreamBuilder<QuerySnapshot>(
         // future: messagesCollection.get(),
-        stream: messagesCollection.orderBy(kCreatedAtField).snapshots(),
+        stream: messagesCollection
+            .orderBy(kCreatedAtField, descending: true)
+            .snapshots(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             List lsitOfMessages = fillMessagesList(snapshot.data!.docs);
@@ -30,7 +35,7 @@ class chatView extends StatelessWidget {
                 title: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Image.asset(KImageAnssets, fit: BoxFit.fill, height: 40),
+                    Image.asset(KImageAssets, fit: BoxFit.fill, height: 40),
                     const Text("Chat")
                   ],
                 ),
@@ -39,14 +44,21 @@ class chatView extends StatelessWidget {
                 children: [
                   Expanded(
                     child: ListView.builder(
-                        // reverse: false,
+                        controller: _scrollController,
+                        reverse: true,
                         itemCount: lsitOfMessages.length,
                         itemBuilder: (context, index) {
+                          log("in list ${lsitOfMessages[index]}");
+                          log("in list Message: ${lsitOfMessages[index].id}");
+                          log("in list ID: ${lsitOfMessages[index].message}");
                           return Align(
                             alignment: Alignment.centerLeft,
-                            child: ChatBuble(
-                              messageModel: lsitOfMessages[index],
-                            ),
+                            child: lsitOfMessages[index].id == email
+                                ? ChatBuble(
+                                    messageModel: lsitOfMessages[index],
+                                  )
+                                : ChatBubleFromFriend(
+                                    messageModel: lsitOfMessages[index]),
                           );
                         }),
                   ),
@@ -58,20 +70,26 @@ class chatView extends StatelessWidget {
                         messagesCollection.add({
                           kMessageField: data,
                           kCreatedAtField: DateTime.now(),
+                          kIdField: email,
                         });
                         textEditingController.clear();
+                        _scrollController.animateTo(
+                            // _scrollController.position.maxScrollExtent,
+                            0,
+                            duration: const Duration(milliseconds: 500),
+                            curve: Curves.easeIn);
                       },
                       decoration: InputDecoration(
                           enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(16),
-                            borderSide: BorderSide(color: kPrimaryColor),
+                            borderSide: const BorderSide(color: kPrimaryColor),
                           ),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(16),
-                            borderSide: BorderSide(color: kPrimaryColor),
+                            borderSide: const BorderSide(color: kPrimaryColor),
                           ),
                           hintText: "type message",
-                          suffixIcon: IconButton(
+                          suffixIcon: const IconButton(
                               onPressed: null, icon: Icon(Icons.send))),
                     ),
                   )
@@ -79,7 +97,7 @@ class chatView extends StatelessWidget {
               ),
             );
           } else {
-            return Center(
+            return const Center(
               child: Text("There is no message"),
             );
           }

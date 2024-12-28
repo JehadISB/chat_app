@@ -12,7 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 class LoginView extends StatefulWidget {
-  LoginView({super.key});
+  const LoginView({super.key});
   static const id = "Login_view";
 
   @override
@@ -41,7 +41,7 @@ class _LoginViewState extends State<LoginView> {
                   height: 50,
                 ),
                 Image.asset(
-                  KImageAnssets,
+                  KImageAssets,
                   fit: BoxFit.fill,
                   height: 130,
                 ),
@@ -94,12 +94,13 @@ class _LoginViewState extends State<LoginView> {
                         UserCredential credential = await FirebaseAuth.instance
                             .signInWithEmailAndPassword(
                                 email: email!, password: password!);
-                        log("end try");
+                        // log("end try");
                         ShowSnackBar(context, message: "Successfully");
-                        Navigator.pushNamed(context, chatView.id);
+                        Navigator.pushNamed(context, chatView.id,
+                            arguments: email);
                       } on FirebaseAuthException catch (e) {
                         if (e.code == 'user-not-found') {
-                          log("I'm here");
+                          // log("I'm here");
                           ShowSnackBar(context,
                               message: "No user found for that email");
                         } else if (e.code == 'wrong-password') {
@@ -108,9 +109,9 @@ class _LoginViewState extends State<LoginView> {
                               message: "Wrong enterd password for that user");
                         }
                       } catch (ex) {
-                        log("I'm here");
+                        // log("I'm here");
                         log(ex.toString());
-                        print(ex.toString());
+                        // print(ex.toString());
                         ShowSnackBar(context, message: ex.toString());
                       }
                       isLoading = false;

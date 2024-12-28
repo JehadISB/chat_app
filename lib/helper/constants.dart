@@ -2,3 +2,6 @@ import 'package:flutter/material.dart';
 
 const Color kPrimaryColor = Color(0xff2B475E);
 const String KImageAnssets = "assets/images/cahtAppIcon.png";
+const String kCollectionName = "messages";
+const String kMessageField = "messages";
+const String kCreatedAtField = "createdAt";

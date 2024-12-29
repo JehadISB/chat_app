@@ -42,8 +42,7 @@ class _LoginViewState extends State<LoginView> {
                 ),
                 Image.asset(
                   KImageAssets,
-                  fit: BoxFit.fill,
-                  height: 130,
+                  height: 150,
                 ),
                 const Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -77,6 +76,7 @@ class _LoginViewState extends State<LoginView> {
                 ),
                 const CustomVerticleSize(),
                 CustomTextFormfiled(
+                  obscureText: true,
                   onChanged: (data) {
                     password = data;
                   },

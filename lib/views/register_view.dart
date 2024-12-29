@@ -42,8 +42,7 @@ class _RegisterViewState extends State<RegisterView> {
                 ),
                 Image.asset(
                   "assets/images/cahtAppIcon.png",
-                  fit: BoxFit.fill,
-                  height: 130,
+                  height: 150,
                 ),
                 const Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -77,6 +76,7 @@ class _RegisterViewState extends State<RegisterView> {
                 ),
                 const CustomVerticleSize(),
                 CustomTextFormfiled(
+                  obscureText: true,
                   onChanged: (data) {
                     password = data;
                   },

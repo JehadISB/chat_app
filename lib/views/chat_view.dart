@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:company_chat_app/helper/constants.dart';
+import 'package:company_chat_app/helper/methods.dart';
 import 'package:company_chat_app/models/message_model.dart';
 import 'package:company_chat_app/widgets/chatt_bubble.dart';
 import 'package:flutter/material.dart';
@@ -96,22 +97,55 @@ class chatView extends StatelessWidget {
                 ],
               ),
             );
+          } else if (snapshot.hasError) {
+            return Scaffold(
+              appBar: AppBar(
+                backgroundColor: kPrimaryColor,
+                automaticallyImplyLeading: false,
+                // centerTitle: true,
+
+                title: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset(KImageAssets, fit: BoxFit.fill, height: 40),
+                    const Text("Chat")
+                  ],
+                ),
+              ),
+              body: const Center(
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.error,
+                      color: Colors.red,
+                    ),
+                    Text("oops there was an error!, try agian"),
+                  ],
+                ),
+              ),
+            );
           } else {
-            return const Center(
-              child: Text("There is no message"),
+            return Scaffold(
+              appBar: AppBar(
+                backgroundColor: kPrimaryColor,
+                automaticallyImplyLeading: false,
+                // centerTitle: true,
+
+                title: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset(KImageAssets, fit: BoxFit.fill, height: 40),
+                    const Text("Chat")
+                  ],
+                ),
+              ),
+              body: const Center(
+                child: CircularProgressIndicator(
+                  color: kPrimaryColor,
+                ),
+              ),
             );
           }
         });
-  }
-
-  List<MessageModel> fillMessagesList(List message) {
-    List<MessageModel> messagesLists = [];
-    for (int i = 0; i < message.length; i++) {
-      // MessageModel.fromJson(message[i][kMessageField]);
-      //messagesLists.add(message[i][kMessageField]);
-      log("the !! ${message[i]}");
-      messagesLists.add(MessageModel.fromJson(message[i]));
-    }
-    return messagesLists;
   }
 }

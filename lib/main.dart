@@ -2,6 +2,7 @@ import 'package:company_chat_app/firebase_options.dart';
 import 'package:company_chat_app/views/chat_view.dart';
 import 'package:company_chat_app/views/login_view.dart';
 import 'package:company_chat_app/views/register_view.dart';
+import 'package:company_chat_app/views/splash_view.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
@@ -23,11 +24,12 @@ class CompanyChatApp extends StatelessWidget {
       theme: ThemeData(useMaterial3: false),
       debugShowCheckedModeBanner: false,
       routes: {
+        SplashView.id: (context) => SplashView(),
         RegisterView.id: (context) => RegisterView(),
         LoginView.id: (context) => LoginView(),
         chatView.id: (context) => chatView(),
       },
-      initialRoute: LoginView.id,
+      initialRoute: SplashView.id,
     );
   }
 }
